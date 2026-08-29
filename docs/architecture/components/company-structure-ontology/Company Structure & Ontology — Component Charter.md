@@ -1,38 +1,42 @@
 # Company Structure & Ontology — Component Charter
 
-Status: **Draft 0.1 for discovery review**
+Status: **Draft 0.2 for discovery review**
 
 Scope: architecture and product boundaries; no implementation commitment
 
-Intended readers: product, domain stakeholders, security/privacy, AI, platform, and engineering
+Intended readers: product, domain stakeholders, security/privacy, platform, and engineering
 
 ## 1. Charter
 
 ### Business purpose
 
-The Company Structure & Ontology component provides a tenant-scoped, machine-readable account of **who and what exists in a company context, how those things relate, and when those facts are valid**.
+The Company Structure & Ontology component provides a tenant-scoped, machine-readable account of **who and what exists in an organizational context, how those things relate, and when those facts are valid**.
 
 It is the organizing backbone for:
 
 - locating knowledge and process ownership;
-- resolving organizational context for people and AI assistants;
+- resolving organizational context for people and downstream services;
 - expressing responsibility, stewardship, and escalation paths;
-- supplying trustworthy attributes to authorization and guardrail decisions;
+- supplying trustworthy structural attributes to downstream policy decisions;
 - connecting business concepts to systems and managed assets; and
 - supporting auditable organizational change without assuming one fixed company shape.
 
-The component is successful when a tenant can describe both a small agency and a more complex customer organization without code changes, while tenant isolation, provenance, minimization, and lifecycle controls remain enforceable.
+The component is successful when a tenant can describe a small product company, a public-purpose institution, or a multi-organization governance setting without code changes, while tenant isolation, provenance, minimization, and lifecycle controls remain enforceable.
 
 ### Product promise
 
 Given a tenant, a permitted actor, a purpose, and a point in time, the component can answer bounded questions such as:
 
-- Who currently holds the project-manager role for Project A?
-- Which team owns a customer-facing system, and who is accountable for it?
-- Which customer technical contact is associated with a delivery engagement?
-- Which Microsoft 365 tenant and Azure resources belong to a customer environment?
-- What organizational facts may an AI assistant use for this task?
-- Why is a relationship believed to be true, and when did it become valid?
+- How are Team Danmark's executive leadership, seven specialist areas, and supporting functions related without forcing all of them into one department hierarchy?
+- Which people hold a specialist function as well as a coordinating or professional-lead function, and during which periods?
+- Which people participate in a governing body, who appointed them where applicable, and which seat, capacity, and term does each appointment concern?
+- How are Pingo Documents' legal organization, founders, employees, consultants, contributor network, products, customer groups, and supplier relationships represented separately but connected?
+- Which organization offers a product or service, which organizations use or partner around it, and who is responsible for that relationship?
+- In a BOARD OFFICE-style setting, which person participates in which board or governing body, possibly across several organizations, and in what capacity?
+- Which external adviser—such as an auditor, lawyer, or bank—is associated with a governing body or organization, without treating that association as an access grant?
+- Why is any of these facts believed to be true, where did it come from, and when was it valid?
+
+These questions are informed by the public [Team Danmark organization](https://www.teamdanmark.dk/om-os/organisation) and [employee directory](https://www.teamdanmark.dk/om-os/medarbejdere), [Pingo Documents company profile](https://www.pingodocs.dk/om-pingo), and [BOARD OFFICE product site](https://www.board-office.dk/), reviewed on 2026-08-29. They are discovery examples, not authoritative imports or endorsements.
 
 It does **not** decide employment law, determine a GDPR lawful basis, or grant access by itself.
 
@@ -40,7 +44,7 @@ It does **not** decide employment law, determine a GDPR lawful basis, or grant a
 
 1. **Tenant first.** Every fact belongs to exactly one security and governance boundary.
 2. **Facts, not assumptions.** Roles, membership, ownership, and reporting lines are explicit, temporal relationships rather than fields inferred from titles or email domains.
-3. **People are not accounts.** A human, an application identity, and an account in Microsoft 365 are distinct things.
+3. **People are not accounts.** A human, an application identity, and an external-provider account are distinct things.
 4. **Description is not authorization.** Organizational facts may inform a policy engine, but do not directly confer access.
 5. **Purpose-limited context.** Consumers receive only the minimum approved projection needed for their declared purpose.
 6. **History with correction.** Important facts retain provenance and validity; correction and erasure remain possible.
@@ -51,19 +55,24 @@ It does **not** decide employment law, determine a GDPR lawful basis, or grant a
 
 | Term | Meaning in this component |
 |---|---|
-| Tenant | The primary isolation, administration, and policy boundary in the platform. Usually represents one customer company; the agency is the first tenant. |
-| Organization | A legal or operational organization represented inside a tenant context. It may be the tenant's own company or an external party such as a customer, supplier, or hosting provider. |
-| Person | A tenant-local record representing a natural person. A person may exist without platform access. |
-| Identity | A security principal authenticated by an identity provider, such as a Microsoft Entra ID user, service principal, or platform identity. |
-| Account | An account in an external system. It may be linked to a person or workload identity but is not interchangeable with either. |
-| Organizational unit | A structural grouping such as a department, team, practice, committee, or project group. Units may nest where the relationship rules allow it. |
-| Role | A reusable definition of expected function, such as CEO, developer, customer technical contact, or data steward. A role is not a person and is not automatically a permission bundle. |
-| Assignment | A time-bounded statement that a subject holds a role in a scope, optionally with capacity, delegation, or employment/engagement context. |
-| Responsibility | A time-bounded accountability or contribution statement over a scope, such as a process, system, asset, customer, or organizational unit. |
-| System | A logical technology service or product, for example Microsoft 365, an AI document-processing service, or a customer web platform. |
-| Resource | A concrete provider-managed object or environment, for example a Microsoft 365 tenant, Azure subscription, resource group, application registration, or hosting account. |
-| Asset | Something governed for business value, risk, or custody, including knowledge collections, datasets, documents, domains, repositories, and devices. |
-| Relationship | A typed, directional, temporal, and attributable fact connecting two entities. |
+| Tenant | The primary data-isolation and administration boundary in the platform. It may represent a company, institution, association, group, or another governed workspace; it is not itself an organization type. |
+| Entity | Any independently identifiable thing described by the ontology. Entity families provide broad semantics; kinds provide more specific vocabulary. |
+| Party | An actor that can participate in relationships. The foundational party kinds are person and organization. |
+| Organization | A legally, publicly, or operationally recognized collective actor, such as a company, public institution, association, supplier, customer, or partner. Internal structure is modeled separately. |
+| Person | A tenant-local representation of a natural person. Employment, consulting, board service, membership, and customer-contact status are relationships—not person subtypes. A person may exist without platform access. |
+| Collective | A named group within or across organizations, such as a department, specialist area, team, governing body, committee, network, or temporary working group. A collective need not fit a strict hierarchy. |
+| Governing body | A collective with formal governance duties, membership rules, terms, or appointment mechanisms, such as a board. It is a kind of collective, not a separate person or organization. |
+| Function | A reusable description of work, authority, expertise, or participation. Role, position, profession, and responsibility type are function kinds. |
+| Role | A reusable function that may be held in a scope, such as director, professional lead, founder, adviser, board chair, or consultant. A role is neither a person nor automatically a permission bundle. |
+| Position/seat | A contextual slot in an organization or collective that can be occupied, vacant, shared, or time-limited, such as a directorship or appointed board seat. |
+| Assignment | A time-bounded statement connecting a party to a function, position, collective, or work scope, with capacity, appointment source, delegation, or engagement context where relevant. |
+| Membership | A time-bounded form of participation in a collective. Membership may carry a role or position but does not have to. |
+| Responsibility | A time-bounded accountability or contribution statement over a governed scope. Responsibility is distinct from job title, membership, and access permission. |
+| Offering | A product, service, program, or support capability made available by an organization, alone or with partners. |
+| Work scope | A bounded subject of activity, such as an engagement, project, case, process, discipline, or initiative. Domain systems may own its detailed record. |
+| Managed object | A governed non-party object, such as a digital system, account, resource, dataset, document collection, facility, device, or other asset. More specific modules define subtype semantics. |
+| Identity/account reference | A link to an authenticated principal or provider account. It may represent a person or automation but is not interchangeable with either. Credentials remain outside this component. |
+| Relationship | A typed, directional where meaningful, temporal, and attributable fact connecting entities. |
 | Ownership | A governance relationship. It never implies property rights or authorization unless a separate policy explicitly says so. |
 | Source/provenance | Where a fact came from, who or what asserted it, and when it was recorded. |
 | Classification | A sensitivity/privacy label used by policy and projection layers. |
@@ -75,15 +84,15 @@ Avoid using **user** as a domain synonym for person. Use it only for an authenti
 ### In scope for the foundational component
 
 - tenant-local entities and stable identifiers;
-- people, organizations, organizational units, role definitions, and role assignments;
+- parties, collectives, functions, memberships, positions, and assignments;
 - identities and external accounts as references, without storing credentials;
-- logical systems, concrete resources, and governed assets;
+- offerings, work-scope references, and managed objects;
 - typed relationships, responsibility/ownership assignments, and bounded hierarchy;
 - validity periods, lifecycle state, provenance, source confidence, and audit events;
 - tenant-defined vocabulary and attributes through governed extensions;
-- query projections for humans, policies, integrations, and AI context builders;
+- query projections for authorized people, policies, and integrations;
 - privacy classification, retention hooks, export, correction, and erasure workflows;
-- import/reconciliation boundaries for Microsoft 365, Entra ID, Azure, HR, CRM, and hosting sources.
+- import/reconciliation boundaries for directories, business systems, registries, and inventories.
 
 ### Explicitly out of scope
 
@@ -91,11 +100,10 @@ Avoid using **user** as a domain synonym for person. Use it only for an authenti
 - the final authorization/policy decision point;
 - HR payroll, performance, absence, or other full employee-record functions;
 - CRM, contract, project-management, CMDB, or asset-inventory workflows in full;
-- storage of document bodies, prompts, model outputs, or general knowledge content;
+- storage of document bodies, work products, or general knowledge content;
 - automated legal classification of controller/processor relationships or lawful basis;
 - workflow orchestration and business-process execution;
-- a universal cross-tenant directory of natural persons;
-- autonomous changes by AI without validated commands, authorization, and audit.
+- a universal cross-tenant directory of natural persons.
 
 Adjacent components keep their own domain records and reference ontology IDs. This component should not become the platform's miscellaneous master-data store.
 
@@ -108,39 +116,36 @@ The recommended logical model is a small typed-node/typed-relationship core with
 ```mermaid
 flowchart LR
     T[Tenant] -->|contains facts about| E[Entity]
-    E --> P[Person]
-    E --> O[Organization]
-    E --> U[Organizational unit]
-    E --> S[System]
-    E --> R[Resource]
-    E --> A[Asset]
+    E --> P[Party]
+    P --> N[Person]
+    P --> O[Organization]
+    E --> C[Collective]
+    E --> F[Function]
+    E --> G[Offering]
+    E --> W[Work scope reference]
+    E --> M[Managed object]
     E --> I[Identity / account reference]
-    P -->|holds via assignment| D[Role definition]
+    P -->|participates via assignment| C
+    P -->|holds via assignment| F
     E -->|typed relationship| E
-    E -->|responsibility assignment| X[Governed scope]
-    X --> U
-    X --> S
-    X --> R
-    X --> A
-    X --> O
+    E -->|responsibility assignment| X[Governed scope entity]
 ```
 
 This is conceptual. It does not prescribe tables, inheritance, or a graph datastore.
 
 ### Core entity families
 
-All records have an opaque ID, `tenant_id`, type, lifecycle state, display label, timestamps, provenance, classification, and version. Personal attributes are optional and minimized.
+All records have an opaque ID, `tenant_id`, family/kind, lifecycle state, display label, timestamps, provenance, classification, and version. Personal attributes are optional and minimized. Families remain broad; domain-specific kinds are vocabulary, not new storage silos.
 
 | Family | Purpose | Example kinds |
 |---|---|---|
-| Person | Represents a natural person in the tenant's context | employee, contractor, customer contact |
-| Organization | Represents an internal legal organization or external party | tenant company, customer, supplier, hosting provider |
-| Organizational unit | Represents flexible groupings and structure | department, team, practice, project group |
-| Role definition | Defines an organizational function | CEO, CTO, project manager, HR partner, QA, tech lead, developer, customer technical contact |
-| System | Represents a logical product or service | Microsoft 365, customer portal, AI assistant, document-processing service |
-| Resource | Represents a deployable/provider-specific object or environment | M365 tenant, Azure subscription/resource group, hosting account |
-| Asset | Represents an item with business value or governance needs | dataset, knowledge base, repository, domain, document library |
-| Identity/account reference | Links a principal or account in an authoritative external system | Entra object, service principal, M365 account |
+| Party | Represents an actor independently of how it participates | person, organization |
+| Collective | Represents a named grouping or body, whether hierarchical, cross-functional, or temporary | unit, team, specialist area, governing body, committee, contributor network |
+| Function | Defines reusable organizational meaning independently of its holder | role, position, profession, responsibility type |
+| Offering | Represents something an organization makes available to others | product, service, program, support capability |
+| Work scope reference | Anchors an assignment or relationship to bounded activity owned here or by another domain | engagement, project, case, process, discipline, initiative |
+| Managed object | Represents a non-party object that needs structure, custody, dependency, or responsibility relationships | system, resource, dataset, document collection, location, facility, equipment |
+| Identity/account reference | Links a party or automation to an authoritative external principal/account | directory identity, provider account, workload identity |
 
 ### First-class relationship/assignment families
 
@@ -148,49 +153,40 @@ Important relationships are records, not unstructured labels. Each carries sourc
 
 | Family | Semantics | Examples |
 |---|---|---|
-| Structural | Composition or grouping | unit **part of** unit; person **member of** team |
-| Role assignment | A subject holds a function within a scope | person **holds developer role in** Delivery Team |
-| Responsibility assignment | Accountability/contribution for a governed scope | team **accountable for** System A; person **consulted on** Process B |
-| Ownership/stewardship | Named governance duties | unit **business owner of** asset; person **data steward for** dataset |
-| Reporting/escalation | Operational direction | person **reports to** person; incident **escalates to** role assignment |
-| Service/party | Inter-organizational context | agency **provides service to** customer; host **operates** resource |
-| Technical | Logical-to-physical and provider links | resource **instance of** system; Azure subscription **belongs to** customer environment |
-| Identity link | Links domain subjects to external principals/accounts | identity **represents** person; account **provided by** M365 tenant |
-| Dependency | Explicit operational dependency | system **depends on** resource |
+| Structural | Composition or grouping | collective **part of** organization; collective **coordinates with** collective |
+| Membership/appointment | Participation in a collective or seat | person **member of** board; authority **appoints** person **to** seat |
+| Function assignment | A party holds a function in a scope | person **holds professional-lead role in** specialist area |
+| Responsibility assignment | Accountability or contribution for a governed scope | collective **accountable for** offering; person **consulted on** process |
+| Ownership/stewardship | Named governance duties | organization **owns** offering; person **steward for** managed object |
+| Reporting/escalation | Operational direction | position **reports to** position; matter **escalates to** governing body |
+| Inter-party | External participation or exchange | organization **partners with** organization; supplier **provides service to** customer |
+| Offering/work | Connects parties, offerings, and bounded activity | organization **offers** product; engagement **serves** customer |
+| Object/dependency | Custody, composition, or operational dependency | managed object **part of** managed object; offering **depends on** managed object |
+| Identity link | Links parties or automation to external principals/accounts | identity **represents** person; account **issued by** organization |
 
 Relationship type definitions specify allowed endpoint families, direction, cardinality, inverse label, whether cycles are allowed, temporal rules, and sensitivity defaults. Free-text relations are not queryable semantics.
 
 ### Why assignments are separate
 
-`Person.role = "CTO"` is insufficient. A role can be shared, delegated, vacant, limited to a customer or project, and changed over time. A role assignment therefore links:
+`Person.role = "Director"` is insufficient. A role can be shared, delegated, vacant, appointed by another party, limited to a collective or work scope, and changed over time. A role assignment therefore links:
 
-- subject: person, organizational unit, or in limited cases workload identity;
-- role definition;
-- scope: tenant, organization, unit, customer, project, system, resource, or asset;
+- subject: party or, where explicitly allowed, automation identity;
+- function and optional position/seat;
+- scope: tenant, organization, collective, offering, work scope, or managed object;
 - validity and lifecycle;
-- optional capacity/delegation details; and
+- optional capacity, appointment source, delegation, and engagement details; and
 - source and approval provenance.
 
 Responsibility uses the same pattern but describes accountability rather than job function. An optional RACI vocabulary can be added later; it is not embedded in the core.
 
-### Example representation
-
-The agency test tenant could express:
-
-- `Person: Alice` — **holds** `Role: Project manager` — **in scope** `Customer: Northwind`;
-- `Team: Platform` — **accountable for** `System: AI document assistance`;
-- `Person: Bob` — **holds** `Role: Customer technical contact` — **in scope** `Organization: Northwind`;
-- `Resource: Northwind M365 tenant` — **instance of** `System: Microsoft 365` and **operated for** `Organization: Northwind`;
-- `Resource: Azure subscription X` — **contains** `Resource: resource group Y` and **technical owner** `Team: Platform`.
-
-The same model supports a flat five-person company, a matrix organization, outsourced roles, and temporary project teams.
+The same model supports small companies, public-purpose institutions, associations, matrix organizations, governing bodies, professional networks, outsourced roles, product portfolios, and temporary teams without redefining people by their current relationship to the organization.
 
 ## 6. Extensibility and semantic governance
 
 Use three levels of vocabulary:
 
 1. **Core types** are platform-owned, versioned, and portable across tenants.
-2. **Approved modules** add shared vocabularies, such as Microsoft 365/Azure resources, delivery engagements, or RACI responsibility kinds.
+2. **Approved modules** add shared vocabularies, such as governance bodies, provider resources, delivery engagements, or RACI responsibility kinds.
 3. **Tenant extensions** add namespaced entity kinds, relationship types, attributes, and labels under tenant governance.
 
 Extension rules:
@@ -218,7 +214,7 @@ Start with a pragmatic application ontology. Formal RDF/OWL export or alignment 
 
 ### Cross-tenant relationships
 
-An agency tenant may represent a customer as an external organization while that customer also has its own platform tenant. These are separate records by default.
+A service-provider tenant may represent a customer as an external organization while that customer also has its own platform tenant. These are separate records by default.
 
 Cross-tenant sharing requires an explicit, revocable **link agreement** that defines parties, purpose, approved projections, direction, expiry, and audit ownership. It creates references or controlled projections, not implicit access to the other tenant's graph. A global person profile or automatic matching by email is prohibited by default.
 
@@ -235,7 +231,7 @@ Physical database topology—shared database with row-level controls, schemas, o
 - Identity links have verification status, source, validity, and unlink history.
 - Source systems have declared authority by field or relationship type. For example, HR may be authoritative for employment status while a delivery system owns project membership.
 - Conflicts create a reconciliation state; lower-authority imports do not silently overwrite curated facts.
-- Service principals and AI agents are modeled as workload identities, not fake people.
+- Service principals and other automation are modeled as workload identities, not fake people.
 
 Organizational attributes are inputs to authorization policy. Access is granted only by the authorization component using explicit policies, authenticated principals, tenant context, purpose, resource, and current facts. Cached policy attributes must have bounded staleness and revocation behavior.
 
@@ -265,7 +261,7 @@ Lifecycle state and real-world validity are separate. A future role assignment c
 
 ## 10. GDPR and privacy by design
 
-This architecture helps tenants and the agency implement controls; it does not itself establish GDPR compliance. Controller, joint-controller, processor, and subprocessor roles are determined **per processing context and contract**, not hard-coded from “tenant” or “platform provider.” Legal/privacy review is required before production.
+This architecture helps tenants and the platform operator implement controls; it does not itself establish GDPR compliance. Controller, joint-controller, processor, and subprocessor roles are determined **per processing context and contract**, not hard-coded from “tenant” or “platform provider.” Legal/privacy review is required before production.
 
 The design follows the GDPR principles of lawfulness/fairness/transparency, purpose limitation, data minimization, accuracy, storage limitation, integrity/confidentiality, and accountability. It also treats data protection by design and by default as a lifecycle obligation, consistent with [GDPR Articles 5 and 25](https://eur-lex.europa.eu/legal-content/EN/TXT/?toc=OJ%3AL%3A2016%3A119%3ATOC&uri=uriserv%3AOJ.L_.2016.119.01.0001.01.ENG) and the [EDPB Article 25 guidelines](https://www.edpb.europa.eu/documents/guideline/guidelines-42019-on-article-25-data-protection-by-design-and-by-default_en).
 
@@ -281,18 +277,8 @@ The design follows the GDPR principles of lawfulness/fairness/transparency, purp
 - Separate operational audit from employee monitoring; restrict audit access and retention.
 - Encrypt in transit and at rest, minimize log payloads, and prevent personal data in metrics and error traces.
 - Document subprocessors, data locations/transfers, backup deletion behavior, and breach-response dependencies.
-- Perform a DPIA screening before pilots involving systematic employee evaluation, broad relationship inference, or consequential AI decisions; complete a DPIA where required.
+- Perform a DPIA screening before pilots involving systematic employee evaluation, broad relationship inference, or consequential automated decisions; complete a DPIA where required.
 - Support transparent notices and a human challenge/correction path for inferred or imported facts.
-
-### AI-specific guardrails
-
-- AI consumers use a server-side context projection with tenant, actor, purpose, and task scope; they do not query the entire graph.
-- Context includes source and freshness where useful, and excludes unverified or disallowed facts.
-- Sensitive fields are redacted or replaced with references before model use unless explicitly necessary and approved.
-- Tenant data is not used for model training by default.
-- Model output is not treated as an authoritative ontology fact. Proposed mutations require schema validation, authorization, provenance, and—where risk warrants—human approval.
-- Do not infer protected traits, performance scores, trustworthiness, or undocumented reporting relationships.
-- Prompt/output retention and provider transfer rules are defined per AI use case, not inherited silently from ontology retention.
 
 ## 11. Dependencies and integration contracts
 
@@ -304,8 +290,7 @@ The design follows the GDPR principles of lawfulness/fairness/transparency, purp
 | Privacy governance | purposes, processing records, retention, legal-role decisions | inventory/classification metadata, subject lookup, deletion evidence |
 | Audit/security monitoring | immutable event sink and alerting | security-relevant model changes without excessive payloads |
 | Connectors/import | source identity, authority rules, cursor/change events | reconciliation outcome and tenant-local IDs |
-| Knowledge/process catalog | governed external IDs | owner, steward, role, unit, system, and asset references |
-| AI context/guardrail service | actor, purpose, task, policy decision | minimized context projection with provenance/freshness |
+| Knowledge/process catalog | governed external IDs | party, collective, function, offering, work-scope, and managed-object references |
 | Search/indexing | tenant-safe indexing contract | authorized, deletion-aware projections |
 
 Integrations use stable IDs and versioned contracts. They must tolerate archived references and cannot duplicate personal data merely for convenience.
@@ -329,11 +314,11 @@ Performance targets, availability objectives, recovery objectives, and maximum g
 
 ## 13. Assumptions to validate
 
-1. A customer company normally maps to one tenant, but groups and subsidiaries may require multiple tenants or multiple organizations within one tenant.
-2. The agency needs to model customer and supplier contacts in its own tenant before customers onboard.
-3. Microsoft Entra ID/Microsoft 365 will be an important source but not the universal source of truth.
+1. One operating organization will often map to one tenant, but groups, subsidiaries, institutions, and shared-service arrangements may require multiple organizations within a tenant or multiple linked tenants.
+2. A tenant may need tenant-local representations of external customers, suppliers, partners, advisers, or contacts before those parties have their own tenant.
+3. Identity directories and business systems will be important sources but not universal sources of truth.
 4. Most authorization decisions need current assignments; historical reconstruction is mainly for audit and explanation.
-5. The first AI uses need small context projections, not unrestricted graph traversal.
+5. Downstream consumers need small authorized projections, not unrestricted graph traversal.
 6. English core vocabulary is acceptable initially, with stable identifiers designed for later localization.
 7. Tenant administrators can govern custom vocabulary, subject to platform security/privacy constraints.
 8. Data residency, retention, and controller/processor terms may differ by customer and must be policy inputs.
@@ -348,7 +333,6 @@ Performance targets, availability objectives, recovery objectives, and maximum g
 | Cross-tenant identity matching leaks data | confidentiality and GDPR harm | tenant-local people; explicit link agreements; no email-based global merge |
 | Imported data overwrites curated truth | inaccuracy and loss of trust | field-level authority and visible reconciliation |
 | History conflicts with erasure rights | unlawful retention | purpose-based retention, redactable events, minimal tombstones |
-| AI amplifies inaccurate or sensitive facts | harmful decisions or disclosure | verified projections, provenance, minimization, human correction |
 | Relationship graphs enable employee surveillance | fairness, trust, legal risk | prohibit inferred performance/behavior graphs; purpose review and DPIA screening |
 | Deep/cyclic relationships cause unsafe or expensive queries | outages or over-broad context | typed cycle rules, bounded traversal, quotas, pagination |
 | Provider support crosses tenant boundaries | insider/data isolation risk | separate control plane and JIT audited access |
@@ -361,8 +345,8 @@ These are proposed defaults, not silently final decisions.
 | ID | Proposed decision | Status / evidence needed |
 |---|---|---|
 | D-01 | Tenant is the mandatory logical isolation boundary for every fact and derivative. | **Recommend accept**; security invariant. |
-| D-02 | People, identities, and accounts are separate entity families. | **Recommend accept**; necessary for correctness and minimization. |
-| D-03 | Roles and responsibilities use scoped, temporal assignments. | **Recommend accept**; validate with agency scenarios. |
+| D-02 | Person records and identity/account references are distinct concepts. | **Recommend accept**; necessary for correctness and minimization. |
+| D-03 | Functions, memberships, appointments, and responsibilities use scoped, temporal assignments. | **Recommend accept**; validate with reference scenarios. |
 | D-04 | Organizational facts inform but never directly grant authorization. | **Recommend accept**; security invariant. |
 | D-05 | Cross-tenant data is shared only through explicit, revocable projections/link agreements. | **Recommend accept**; validate collaboration UX. |
 | D-06 | Use a typed relationship model with relational implementation as the initial baseline; no graph database commitment. | **Pending** access-pattern spike. |
@@ -385,7 +369,7 @@ Gate: scope, terminology, invariants, and proposed decisions are accepted or exp
 
 Deliverables:
 
-- 8–12 concrete agency scenarios, including joiner/mover/leaver, customer onboarding/offboarding, delegated responsibility, M365/Azure linking, and AI context retrieval;
+- 8–12 concrete scenarios, including joiner/mover/leaver, board appointment expiry, dual specialist/lead roles, external advisers, partner/supplier relationships, and delegated responsibility;
 - source-of-truth matrix by field/relationship;
 - data-purpose/minimization worksheet and DPIA screening;
 - sample tenant boundary and cross-tenant sharing stories.
@@ -398,7 +382,7 @@ Deliverables:
 
 - versioned entity/relationship vocabulary;
 - cardinality, hierarchy/cycle, lifecycle, provenance, and extension rules;
-- 2–3 representative example datasets: agency, small customer, matrix/outsourced customer;
+- 2–3 representative example datasets: public-purpose institution, small product company, and multi-board/adviser setting;
 - open decision log and glossary diff.
 
 Gate: domain, privacy, and security walkthroughs can answer the discovery questions without implementation-specific workarounds.
@@ -418,12 +402,12 @@ Gate: contracts demonstrate deny-by-default isolation, safe evolution, and subje
 
 Deliverables:
 
-- one tenant-local vertical slice for organization/unit/person/role assignment/system/resource;
-- one Microsoft identity/resource import stub or fixture;
-- one policy-filtered human view and one AI context projection;
+- one tenant-local vertical slice for party/collective/function assignment/offering/managed object;
+- one directory or business-system import stub or fixture;
+- one policy-filtered human view and one authorized consumer projection;
 - observable audit and reconciliation path.
 
-Gate: the agency dataset works end to end; no production data or autonomous AI writes.
+Gate: the designated pilot dataset works end to end; no production data or unreviewed automated writes.
 
 ### Stage 5 — Verification
 
@@ -465,7 +449,7 @@ Gate: production approval, followed by scheduled re-evaluation as uses, risks, s
 Keep the first review to 60–90 minutes and decide only what unlocks Stage 1:
 
 1. Confirm the component's boundary and name a domain owner.
-2. Walk through three agency cases: staff structure, customer delivery, and Microsoft 365/Azure ownership.
+2. Walk through three reference cases: Team Danmark's governance/specialist structure, Pingo's mixed roles/product relationships, and BOARD OFFICE's multi-board/adviser relationships.
 3. Challenge the person/identity/account and role/responsibility distinctions.
 4. Identify sensitive relationships and prohibited fields.
 5. Select the first 8–12 scenarios and their source-system owners.
